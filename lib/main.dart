@@ -3,6 +3,11 @@ import 'package:individual_assignment_1/screens/calendar_screen.dart';
 import 'package:individual_assignment_1/screens/settings_screen.dart';
 import 'package:individual_assignment_1/screens/today_screen.dart';
 
+class CustomColors {
+  static const Color primaryBackground = Color(0xFF011339); // Your dark blue
+  static const Color appBarColor = Color(0xFF011339); // Same color for app bar
+}
+
 void main() {
   runApp(const StudyPlanner());
 }
@@ -31,10 +36,16 @@ class _StudyPlannerState extends State<StudyPlanner> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Study Planner',
+      theme: ThemeData(
+        scaffoldBackgroundColor: CustomColors.primaryBackground,
+        appBarTheme: AppBarTheme(backgroundColor: CustomColors.appBarColor),
+        textTheme: TextTheme(bodyLarge: TextStyle(color: Colors.white)),
+      ),
       home: Scaffold(
         body: Center(child: _widgetOptions.elementAt(_selectedItem)),
 
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: CustomColors.primaryBackground,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Today"),
             BottomNavigationBarItem(
@@ -47,6 +58,8 @@ class _StudyPlannerState extends State<StudyPlanner> {
             ),
           ],
           currentIndex: _selectedItem,
+          selectedItemColor: Colors.amber,
+          unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
         ),
       ),
