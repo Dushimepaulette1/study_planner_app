@@ -38,4 +38,21 @@ class Task {
       isCompleted: json['isCompleted'],
     );
   }
+
+  Task copyWith({
+    String? title,
+    String? description,
+    DateTime? dueDate,
+    DateTime? reminderTime,
+    bool? isCompleted,
+  }) {
+    return Task(
+      id: id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      dueDate: dueDate ?? this.dueDate,
+      reminderTime: reminderTime ?? this.reminderTime,
+      isCompleted: isCompleted ?? this.isCompleted,
+    );
+  }
 }
