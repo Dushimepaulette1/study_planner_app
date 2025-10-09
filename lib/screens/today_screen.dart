@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:individual_assignment_1/main.dart';
 import 'package:individual_assignment_1/screens/calendar_screen.dart';
+import 'package:individual_assignment_1/screens/new_task_screen.dart';
 
 class TodayScreen extends StatelessWidget {
   const TodayScreen({super.key});
@@ -105,7 +106,14 @@ class TodayScreen extends StatelessWidget {
                         foregroundColor: Colors.black,
                         minimumSize: Size(double.infinity, 50),
                       ),
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NewTaskScreen(),
+                          ),
+                        ),
+                      },
                       child: Text(
                         "New Task",
                         style: TextStyle(

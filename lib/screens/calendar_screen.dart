@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:individual_assignment_1/main.dart';
 import 'package:intl/intl.dart'; // ADDED: For date formatting
+import 'package:individual_assignment_1/services/storage.dart'; // FIXED: Correct import path
+import 'package:individual_assignment_1/models/task.dart'; // ADDED: Import Task model
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -12,6 +14,8 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _selectedDate = DateTime.now();
   DateTime _currentMonth = DateTime.now();
+  final StorageService _storageService =
+      StorageService(); // ADDED: StorageService instance
 
   @override
   Widget build(BuildContext context) {
@@ -195,11 +199,45 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       SizedBox(height: 10),
                       // This is where tasks for selected date will go
                       Expanded(
-                        child: Center(
-                          child: Text(
-                            "No tasks for this date",
-                            style: TextStyle(color: Colors.grey),
-                          ),
+                        child: FutureBuilder<List<Task>>(
+                          future: _storageService.loadTasks(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+
+                            final tasks = snapshot.data ?? [];
+                            final dateTasks = tasks
+                                .where(
+                                  (task) =>
+                                      _isSameDay(task.dueDate, _selectedDate),
+                                )
+                                .toList();
+
+                            if (dateTasks.isEmpty) {
+                              return Center(
+                                child: Text(
+                                  "No tasks for this date",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              );
+                            }
+
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: dateTasks.length,
+                              itemBuilder: (context, index) {
+                                final task = dateTasks[index];
+                                return ListTile(
+                                  title: Text(task.title),
+                                  subtitle: Text(
+                                    DateFormat('hh:mm a').format(task.dueDate),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                       ),
                     ],
