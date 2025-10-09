@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_planner_app/models/task.dart';
-import 'package:study_planner_app/services/storage_services.dart';
+import 'package:study_planner_app/services/storage_service.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});
