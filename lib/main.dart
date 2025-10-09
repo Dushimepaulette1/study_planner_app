@@ -1,34 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:individual_assignment_1/screens/calendar_screen.dart';
-import 'package:individual_assignment_1/screens/settings_screen.dart';
-import 'package:individual_assignment_1/screens/today_screen.dart';
-
-class CustomColors {
-  static const Color primaryBackground = Color(0xFF011339); // Your dark blue
-  static const Color appBarColor = Color(0xFF011339); // Same color for app bar
-}
+import 'package:study_planner_app/screens/today_screen.dart';
+import 'package:study_planner_app/screens/calendar_screen.dart';
+import 'package:study_planner_app/screens/settings_screen.dart';
+import 'package:study_planner_app/utils/colors.dart';
 
 void main() {
-  runApp(const StudyPlanner());
+  runApp(const StudyPlannerApp());
 }
 
-class StudyPlanner extends StatefulWidget {
-  const StudyPlanner({super.key});
+class StudyPlannerApp extends StatefulWidget {
+  const StudyPlannerApp({super.key});
 
   @override
-  State<StudyPlanner> createState() => _StudyPlannerState();
+  State<StudyPlannerApp> createState() => _StudyPlannerAppState();
 }
 
-class _StudyPlannerState extends State<StudyPlanner> {
-  int _selectedItem = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    TodayScreen(),
-    CalendarScreen(),
-    SettingsScreen(),
+class _StudyPlannerAppState extends State<StudyPlannerApp> {
+  int _selectedIndex = 0;
+  final List<Widget> _screens = [
+    const TodayScreen(),
+    const CalendarScreen(),
+    const SettingsScreen(),
   ];
+
   void _onItemTapped(int index) {
     setState(() {
-      _selectedItem = index;
+      _selectedIndex = index;
     });
   }
 
@@ -37,29 +34,34 @@ class _StudyPlannerState extends State<StudyPlanner> {
     return MaterialApp(
       title: 'Study Planner',
       theme: ThemeData(
-        scaffoldBackgroundColor: CustomColors.primaryBackground,
-        appBarTheme: AppBarTheme(backgroundColor: CustomColors.appBarColor),
-        textTheme: TextTheme(bodyLarge: TextStyle(color: Colors.white)),
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: AppColors.primaryBackground,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.appBarColor,
+          foregroundColor: Colors.white,
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: AppColors.appBarColor,
+          selectedItemColor: AppColors.accentColor,
+          unselectedItemColor: Colors.white70,
+        ),
+        useMaterial3: true,
       ),
       home: Scaffold(
-        body: Center(child: _widgetOptions.elementAt(_selectedItem)),
-
+        body: _screens[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: CustomColors.primaryBackground,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Today"),
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.today), label: 'Today'),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today),
-              label: "Calendar",
+              label: 'Calendar',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.notification_important),
-              label: "Notifications",
+              icon: Icon(Icons.settings),
+              label: 'Settings',
             ),
           ],
-          currentIndex: _selectedItem,
-          selectedItemColor: Colors.amber,
-          unselectedItemColor: Colors.grey,
+          currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ),
       ),

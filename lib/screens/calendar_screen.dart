@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:individual_assignment_1/main.dart';
+import 'package:study_planner_app/main.dart';
 import 'package:intl/intl.dart'; // ADDED: For date formatting
-import 'package:individual_assignment_1/services/storage_services.dart'; // FIXED: Correct import path
-import 'package:individual_assignment_1/models/task.dart'; // ADDED: Import Task model
+import 'package:study_planner_app/services/storage_services.dart'; // FIXED: Correct import path
+import 'package:study_planner_app/models/task.dart'; // ADDED: Import Task model
+import 'package:study_planner_app/utils/colors.dart'; // ADDED: Import colors
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -20,9 +21,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.primaryBackground,
+      backgroundColor: AppColors.primaryBackground,
       appBar: AppBar(
-        backgroundColor: CustomColors.primaryBackground,
+        backgroundColor: AppColors.primaryBackground,
         title: Text(
           "My Study Planner",
           style: TextStyle(
@@ -70,7 +71,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
-                            color: CustomColors.primaryBackground,
+                            color: AppColors.primaryBackground,
                           ),
                         ),
                         IconButton(
@@ -101,7 +102,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      color: CustomColors.primaryBackground,
+                                      color: AppColors.primaryBackground,
                                     ),
                                   ),
                                 ),
@@ -157,7 +158,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 date.day.toString(),
                                 style: TextStyle(
                                   color: date.month == _currentMonth.month
-                                      ? CustomColors.primaryBackground
+                                      ? AppColors.primaryBackground
                                       : Colors.grey,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -193,7 +194,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         style: TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
-                          color: CustomColors.primaryBackground,
+                          color: AppColors.primaryBackground,
                         ),
                       ),
                       SizedBox(height: 10),

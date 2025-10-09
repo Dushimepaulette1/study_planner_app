@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:individual_assignment_1/main.dart';
-import 'package:individual_assignment_1/screens/calendar_screen.dart';
-import 'package:individual_assignment_1/screens/new_task_screen.dart';
+import 'package:study_planner_app/main.dart';
+import 'package:study_planner_app/screens/calendar_screen.dart';
+import 'package:study_planner_app/screens/new_task_screen.dart';
+import 'package:study_planner_app/utils/colors.dart';
 
 class TodayScreen extends StatelessWidget {
   const TodayScreen({super.key});
@@ -45,7 +46,7 @@ class TodayScreen extends StatelessWidget {
                             "Remind Tasks",
                             style: TextStyle(
                               fontSize: 25.0,
-                              color: CustomColors.appBarColor,
+                              color: AppColors.appBarColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -55,12 +56,12 @@ class TodayScreen extends StatelessWidget {
                             "Read Chapter 1",
                             style: TextStyle(
                               fontSize: 25.0,
-                              color: CustomColors.appBarColor,
+                              color: AppColors.appBarColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           leading: CircleAvatar(
-                            backgroundColor: CustomColors.primaryBackground,
+                            backgroundColor: AppColors.primaryBackground,
                             radius: 5.0,
                           ),
                         ),
@@ -69,12 +70,12 @@ class TodayScreen extends StatelessWidget {
                             "Assignment 1",
                             style: TextStyle(
                               fontSize: 25.0,
-                              color: CustomColors.appBarColor,
+                              color: AppColors.appBarColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           leading: CircleAvatar(
-                            backgroundColor: CustomColors.primaryBackground,
+                            backgroundColor: AppColors.primaryBackground,
                             radius: 5.0,
                           ),
                         ),
@@ -83,12 +84,12 @@ class TodayScreen extends StatelessWidget {
                             "Review Flashcards",
                             style: TextStyle(
                               fontSize: 25.0,
-                              color: CustomColors.appBarColor,
+                              color: AppColors.appBarColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           leading: CircleAvatar(
-                            backgroundColor: CustomColors.primaryBackground,
+                            backgroundColor: AppColors.primaryBackground,
                             radius: 5.0,
                           ),
                         ),
