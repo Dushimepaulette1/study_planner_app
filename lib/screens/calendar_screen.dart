@@ -9,7 +9,7 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-    DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   DateTime _currentMonth = DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        _currentMonth = DateTime(_currentMonth.year, _currentMonth.month - 1);
+                        _currentMonth = DateTime(
+                          _currentMonth.year,
+                          _currentMonth.month - 1,
+                        );
                       });
                     },
                     icon: Icon(Icons.chevron_left),
@@ -62,7 +65,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        _currentMonth = DateTime(_currentMonth.year, _currentMonth.month + 1);
+                        _currentMonth = DateTime(
+                          _currentMonth.year,
+                          _currentMonth.month + 1,
+                        );
                       });
                     },
                     icon: Icon(Icons.chevron_right),
@@ -87,18 +93,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 10.0),
                       child: Row(
-                        children: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-                            .map((day) => Expanded(
-                                  child: Text(
-                                    day,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: CustomColors.primaryBackground,
+                        children:
+                            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+                                .map(
+                                  (day) => Expanded(
+                                    child: Text(
+                                      day,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: CustomColors.primaryBackground,
+                                      ),
                                     ),
                                   ),
-                                ))
-                            .toList(),
+                                )
+                                .toList(),
                       ),
                     ),
                     // Calendar days grid
@@ -110,12 +119,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         itemCount: 42, // 6 weeks
                         itemBuilder: (context, index) {
                           // Calculate date for each grid cell
-                          final firstDayOfMonth = DateTime(_currentMonth.year, _currentMonth.month, 1);
+                          final firstDayOfMonth = DateTime(
+                            _currentMonth.year,
+                            _currentMonth.month,
+                            1,
+                          );
                           final weekDay = firstDayOfMonth.weekday;
                           final day = index - weekDay + 1;
-                          
-                          final date = DateTime(_currentMonth.year, _currentMonth.month, day);
-                          
+
+                          final date = DateTime(
+                            _currentMonth.year,
+                            _currentMonth.month,
+                            day,
+                          );
+
                           return GestureDetector(
                             onTap: () {
                               setState(() {
@@ -142,10 +159,46 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 ),
                               ),
                             ),
+                          );
+                        },
+                      ),
+                    ),
+                    // Selected date tasks section
+                    Container(
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Tasks for ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: CustomColors.primaryBackground,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          // This is where tasks for selected date will go
+                          Text(
+                            "No tasks for this date",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 }
