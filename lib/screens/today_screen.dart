@@ -105,14 +105,7 @@ class TodayScreen extends StatelessWidget {
                         foregroundColor: Colors.black,
                         minimumSize: Size(double.infinity, 50),
                       ),
-                      onPressed: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CalendarScreen(),
-                          ),
-                        ),
-                      },
+                      onPressed: () => {},
                       child: Text(
                         "New Task",
                         style: TextStyle(

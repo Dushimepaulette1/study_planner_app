@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:individual_assignment_1/main.dart';
+import 'package:intl/intl.dart'; // ADDED: For date formatting
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -11,6 +12,7 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _selectedDate = DateTime.now();
   DateTime _currentMonth = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,166 +32,181 @@ class _CalendarScreenState extends State<CalendarScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Month Header
+            // CALENDAR SECTION - WHITE CONTAINER
             Container(
-              padding: EdgeInsets.all(16.0),
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20.0),
+                ), // CHANGED: All corners rounded
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _currentMonth = DateTime(
-                          _currentMonth.year,
-                          _currentMonth.month - 1,
-                        );
-                      });
-                    },
-                    icon: Icon(Icons.chevron_left),
-                  ),
-                  Text(
-                    "${_currentMonth.month}/${_currentMonth.year}",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: CustomColors.primaryBackground,
+                  // Month Header - CHANGED: Using DateFormat for proper month name
+                  Container(
+                    padding: EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentMonth = DateTime(
+                                _currentMonth.year,
+                                _currentMonth.month - 1,
+                              );
+                            });
+                          },
+                          icon: Icon(Icons.chevron_left),
+                        ),
+                        Text(
+                          // CHANGED: Using DateFormat for "July 2025" format
+                          DateFormat('MMMM yyyy').format(_currentMonth),
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            color: CustomColors.primaryBackground,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentMonth = DateTime(
+                                _currentMonth.year,
+                                _currentMonth.month + 1,
+                              );
+                            });
+                          },
+                          icon: Icon(Icons.chevron_right),
+                        ),
+                      ],
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _currentMonth = DateTime(
+
+                  // Weekday headers
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: Row(
+                      children:
+                          ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+                              .map(
+                                (day) => Expanded(
+                                  child: Text(
+                                    day,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors.primaryBackground,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                    ),
+                  ),
+
+                  // Calendar days grid
+                  Container(
+                    padding: EdgeInsets.all(16.0),
+                    child: GridView.builder(
+                      shrinkWrap:
+                          true, // ADDED: So GridView doesn't expand infinitely
+                      physics:
+                          NeverScrollableScrollPhysics(), // ADDED: Prevent inner scrolling
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 7,
+                      ),
+                      itemCount: 42, // 6 weeks
+                      itemBuilder: (context, index) {
+                        // Calculate date for each grid cell
+                        final firstDayOfMonth = DateTime(
                           _currentMonth.year,
-                          _currentMonth.month + 1,
+                          _currentMonth.month,
+                          1,
                         );
-                      });
-                    },
-                    icon: Icon(Icons.chevron_right),
+                        final weekDay = firstDayOfMonth.weekday;
+                        final day = index - weekDay + 1;
+
+                        final date = DateTime(
+                          _currentMonth.year,
+                          _currentMonth.month,
+                          day,
+                        );
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedDate = date;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(2.0),
+                            decoration: BoxDecoration(
+                              color: _isSameDay(date, _selectedDate)
+                                  ? Colors.amber
+                                  : Colors.transparent,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                date.day.toString(),
+                                style: TextStyle(
+                                  color: date.month == _currentMonth.month
+                                      ? CustomColors.primaryBackground
+                                      : Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
-              ),
-            ),
-            // Calendar Grid
+              ), // END of Calendar Section Column
+            ), // END of Calendar Section Container
+            // ADDED: Space between calendar and tasks sections
+            SizedBox(height: 16.0),
+
+            // TASKS SECTION - SEPARATE WHITE CONTAINER
             Expanded(
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20.0),
-                    bottomRight: Radius.circular(20.0),
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
                 ),
-                child: Column(
-                  children: [
-                    // Weekday headers
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                      child: Row(
-                        children:
-                            ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-                                .map(
-                                  (day) => Expanded(
-                                    child: Text(
-                                      day,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: CustomColors.primaryBackground,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                      ),
-                    ),
-                    // Calendar days grid
-                    Expanded(
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 7,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        // CHANGED: Using DateFormat for better date display
+                        "Tasks for ${DateFormat('MMM dd, yyyy').format(_selectedDate)}",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: CustomColors.primaryBackground,
                         ),
-                        itemCount: 42, // 6 weeks
-                        itemBuilder: (context, index) {
-                          // Calculate date for each grid cell
-                          final firstDayOfMonth = DateTime(
-                            _currentMonth.year,
-                            _currentMonth.month,
-                            1,
-                          );
-                          final weekDay = firstDayOfMonth.weekday;
-                          final day = index - weekDay + 1;
-
-                          final date = DateTime(
-                            _currentMonth.year,
-                            _currentMonth.month,
-                            day,
-                          );
-
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedDate = date;
-                              });
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(2.0),
-                              decoration: BoxDecoration(
-                                color: _isSameDay(date, _selectedDate)
-                                    ? Colors.amber
-                                    : Colors.transparent,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  date.day.toString(),
-                                  style: TextStyle(
-                                    color: date.month == _currentMonth.month
-                                        ? CustomColors.primaryBackground
-                                        : Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
                       ),
-                    ),
-                    // Selected date tasks section
-                    Container(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Tasks for ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: CustomColors.primaryBackground,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          // This is where tasks for selected date will go
-                          Text(
+                      SizedBox(height: 10),
+                      // This is where tasks for selected date will go
+                      Expanded(
+                        child: Center(
+                          child: Text(
                             "No tasks for this date",
                             style: TextStyle(color: Colors.grey),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ),
+              ), // END of Tasks Section Container
+            ), // END of Expanded for Tasks Section
           ],
         ),
       ),
