@@ -5,6 +5,7 @@ import '../models/task.dart';
 class StorageService {
   static const String _tasksKey = 'tasks';
   static const String _storageMethodKey = 'storage_method';
+  static const String _themeModeKey = 'theme_mode';
   static const String _notificationsEnabledKey = 'notifications_enabled';
   Future<void> saveTasks(List<Task> tasks) async {
     final prefs = await SharedPreferences.getInstance();
@@ -70,5 +71,15 @@ class StorageService {
 
   String getStorageMethod() {
     return 'shared_preferences';
+  }
+
+  Future<void> setThemeMode(bool isDarkMode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_themeModeKey, isDarkMode);
+  }
+
+  Future<bool> getThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_themeModeKey) ?? false; // Default to light mode
   }
 }
