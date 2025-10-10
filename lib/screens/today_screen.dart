@@ -145,82 +145,93 @@ class _TodayScreenState extends State<TodayScreen> {
                         child: Card(
                           color: Theme.of(context).cardColor,
                           margin: const EdgeInsets.only(bottom: 8),
-                          child: CheckboxListTile(
-                            value: task.isCompleted,
-                            onChanged: (bool? value) {
-                              _toggleTaskCompletion(task);
-                            },
-                            title: Text(
-                              task.title,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                decoration: task.isCompleted
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                                color: task.isCompleted
-                                    ? Colors.grey
-                                    : Theme.of(context).brightness ==
-                                          Brightness.dark
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              // Remove splash effect
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                             ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (task.description != null &&
-                                    task.description!.isNotEmpty)
-                                  Text(
-                                    task.description!,
-                                    style: TextStyle(
-                                      decoration: task.isCompleted
-                                          ? TextDecoration.lineThrough
-                                          : TextDecoration.none,
-                                      color: task.isCompleted
-                                          ? Colors.grey
-                                          : Theme.of(context).brightness ==
-                                                Brightness.dark
-                                          ? Colors.white70
-                                          : Colors.black54,
-                                    ),
-                                  ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.access_time,
-                                      size: 14,
-                                      color: Colors.grey,
-                                    ),
-                                    const SizedBox(width: 4),
+                            child: CheckboxListTile(
+                              value: task.isCompleted,
+                              onChanged: (bool? value) {
+                                _toggleTaskCompletion(task);
+                              },
+                              // Customize checkbox appearance
+                              activeColor: Colors.green,
+                              checkColor: Colors.white,
+                              title: Text(
+                                task.title,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: task.isCompleted
+                                      ? TextDecoration.lineThrough
+                                      : TextDecoration.none,
+                                  color: task.isCompleted
+                                      ? Colors.grey
+                                      : Theme.of(context).brightness ==
+                                            Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (task.description != null &&
+                                      task.description!.isNotEmpty)
                                     Text(
-                                      DateFormat('HH:mm').format(task.dueDate),
+                                      task.description!,
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        decoration: task.isCompleted
+                                            ? TextDecoration.lineThrough
+                                            : TextDecoration.none,
                                         color: task.isCompleted
                                             ? Colors.grey
-                                            : Colors.grey,
+                                            : Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                            ? Colors.white70
+                                            : Colors.black54,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.access_time,
+                                        size: 14,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        DateFormat(
+                                          'HH:mm',
+                                        ).format(task.dueDate),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: task.isCompleted
+                                              ? Colors.grey
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              secondary: Icon(
+                                task.isCompleted
+                                    ? Icons.check_circle
+                                    : Icons.fiber_manual_record,
+                                color: task.isCompleted
+                                    ? Colors.green
+                                    : Theme.of(context).brightness ==
+                                          Brightness.dark
+                                    ? AppColors.darkPrimary
+                                    : AppColors.lightPrimary,
+                                size: 24,
+                              ),
+                              controlAffinity: ListTileControlAffinity.leading,
                             ),
-                            secondary: CircleAvatar(
-                              backgroundColor: task.isCompleted
-                                  ? Colors.green
-                                  : AppColors.lightPrimary,
-                              radius: 4,
-                              child: task.isCompleted
-                                  ? const Icon(
-                                      Icons.check,
-                                      size: 8,
-                                      color: Colors.white,
-                                    )
-                                  : null,
-                            ),
-                            controlAffinity: ListTileControlAffinity.leading,
                           ),
                         ),
                       );

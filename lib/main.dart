@@ -78,6 +78,9 @@ class _StudyPlannerAppState extends State<StudyPlannerApp> {
       primaryColor: AppColors.lightPrimary,
       scaffoldBackgroundColor: AppColors.lightBackground,
       cardColor: AppColors.lightSurface,
+      splashFactory: NoSplash.splashFactory, 
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.lightPrimary,
         foregroundColor: Colors.white,
@@ -101,6 +104,9 @@ class _StudyPlannerAppState extends State<StudyPlannerApp> {
       primaryColor: AppColors.darkPrimary,
       scaffoldBackgroundColor: AppColors.darkBackground,
       cardColor: AppColors.darkSurface,
+      splashFactory: NoSplash.splashFactory, // Remove splash globally
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.darkSurface,
         foregroundColor: AppColors.darkText,
