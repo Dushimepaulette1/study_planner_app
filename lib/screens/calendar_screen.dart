@@ -81,7 +81,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Container(
               margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -108,7 +108,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primaryBackground,
+                            color: AppColors.lightPrimary,
                           ),
                         ),
                         IconButton(
@@ -178,7 +178,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   shape: BoxShape.circle,
                                   border: hasTasks && !isSelected
                                       ? Border.all(
-                                          color: AppColors.primaryBackground,
+                                          color: AppColors.lightPrimary,
                                           width: 2,
                                         )
                                       : null,
@@ -190,7 +190,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       color: isCurrentMonth
                                           ? (isSelected
                                                 ? Colors.black
-                                                : AppColors.primaryBackground)
+                                                : AppColors.lightPrimary)
                                           : Colors.grey,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -224,7 +224,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primaryBackground,
+                        color: AppColors.lightPrimary,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -322,7 +322,7 @@ class _WeekdayHeader extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.primaryBackground,
+            color: AppColors.lightPrimary,
           ),
         ),
       ),

@@ -90,9 +90,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBackground,
+      backgroundColor: AppColors.lightPrimary,
       appBar: AppBar(
-        backgroundColor: AppColors.primaryBackground,
+        backgroundColor: AppColors.lightPrimary,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
@@ -114,7 +114,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: SingleChildScrollView(
@@ -124,12 +124,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Title
-                      const Text(
+                      Text(
                         'Title *',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primaryBackground,
+                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -149,7 +149,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primaryBackground,
+                          color: AppColors.lightPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -173,7 +173,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primaryBackground,
+                          color: AppColors.lightPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -200,7 +200,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.primaryBackground,
+                          color: AppColors.lightPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -229,7 +229,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.primaryBackground,
+                              color: AppColors.lightPrimary,
                             ),
                           ),
                           const Spacer(),
@@ -252,7 +252,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.primaryBackground,
+                            color: AppColors.lightPrimary,
                           ),
                         ),
                         const SizedBox(height: 8),

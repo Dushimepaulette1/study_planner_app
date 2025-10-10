@@ -70,7 +70,7 @@ class _TodayScreenState extends State<TodayScreen> {
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: FutureBuilder<List<Task>>(
@@ -145,6 +145,7 @@ class _TodayScreenState extends State<TodayScreen> {
                           _deleteTask(task.id);
                         },
                         child: Card(
+                          color: Theme.of(context).cardColor,
                           margin: const EdgeInsets.only(bottom: 8),
                           child: CheckboxListTile(
                             value: task.isCompleted,
@@ -205,7 +206,7 @@ class _TodayScreenState extends State<TodayScreen> {
                             secondary: CircleAvatar(
                               backgroundColor: task.isCompleted
                                   ? Colors.green
-                                  : AppColors.primaryBackground,
+                                  : AppColors.lightPrimary,
                               radius: 4,
                               child: task.isCompleted
                                   ? const Icon(
