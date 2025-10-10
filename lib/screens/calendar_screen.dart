@@ -73,136 +73,142 @@ class _CalendarScreenState extends State<CalendarScreen> {
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Column(
-        children: [
-          // Calendar Section
-          Container(
-            margin: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              children: [
-                // Month Header
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _currentMonth = DateTime(
-                              _currentMonth.year,
-                              _currentMonth.month - 1,
-                            );
-                          });
-                        },
-                        icon: const Icon(Icons.chevron_left),
-                      ),
-                      Text(
-                        DateFormat('MMMM yyyy').format(_currentMonth),
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryBackground,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _currentMonth = DateTime(
-                              _currentMonth.year,
-                              _currentMonth.month + 1,
-                            );
-                          });
-                        },
-                        icon: const Icon(Icons.chevron_right),
-                      ),
-                    ],
-                  ),
-                ),
-                // Weekday Headers
-                const Row(
-                  children: [
-                    _WeekdayHeader('Sun'),
-                    _WeekdayHeader('Mon'),
-                    _WeekdayHeader('Tue'),
-                    _WeekdayHeader('Wed'),
-                    _WeekdayHeader('Thu'),
-                    _WeekdayHeader('Fri'),
-                    _WeekdayHeader('Sat'),
-                  ],
-                ),
-                // Calendar Grid
-                FutureBuilder<List<Task>>(
-                  future: _allTasks,
-                  builder: (context, snapshot) {
-                    final tasks = snapshot.data ?? [];
-                    final days = _getDaysInMonth(_currentMonth);
-
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 7,
-                          ),
-                      itemCount: days.length,
-                      itemBuilder: (context, index) {
-                        final date = days[index];
-                        final hasTasks = _hasTasksOnDate(date, tasks);
-                        final isCurrentMonth =
-                            date.month == _currentMonth.month;
-                        final isSelected = _isSameDay(date, _selectedDate);
-
-                        return GestureDetector(
-                          onTap: () {
+      body: SingleChildScrollView(
+        // CHANGED: Added SingleChildScrollView for the entire screen
+        child: Column(
+          children: [
+            // Calendar Section
+            Container(
+              margin: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                children: [
+                  // Month Header
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
                             setState(() {
-                              _selectedDate = date;
+                              _currentMonth = DateTime(
+                                _currentMonth.year,
+                                _currentMonth.month - 1,
+                              );
                             });
                           },
-                          child: Container(
-                            margin: const EdgeInsets.all(2),
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColors.accentColor
-                                  : Colors.transparent,
-                              shape: BoxShape.circle,
-                              border: hasTasks && !isSelected
-                                  ? Border.all(
-                                      color: AppColors.primaryBackground,
-                                      width: 2,
-                                    )
-                                  : null,
-                            ),
-                            child: Center(
-                              child: Text(
-                                date.day.toString(),
-                                style: TextStyle(
-                                  color: isCurrentMonth
-                                      ? (isSelected
-                                            ? Colors.black
-                                            : AppColors.primaryBackground)
-                                      : Colors.grey,
-                                  fontWeight: FontWeight.bold,
+                          icon: const Icon(Icons.chevron_left),
+                        ),
+                        Text(
+                          DateFormat('MMMM yyyy').format(_currentMonth),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryBackground,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _currentMonth = DateTime(
+                                _currentMonth.year,
+                                _currentMonth.month + 1,
+                              );
+                            });
+                          },
+                          icon: const Icon(Icons.chevron_right),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Weekday Headers
+                  const Row(
+                    children: [
+                      _WeekdayHeader('Sun'),
+                      _WeekdayHeader('Mon'),
+                      _WeekdayHeader('Tue'),
+                      _WeekdayHeader('Wed'),
+                      _WeekdayHeader('Thu'),
+                      _WeekdayHeader('Fri'),
+                      _WeekdayHeader('Sat'),
+                    ],
+                  ),
+                  // Calendar Grid
+                  FutureBuilder<List<Task>>(
+                    future: _allTasks,
+                    builder: (context, snapshot) {
+                      final tasks = snapshot.data ?? [];
+                      final days = _getDaysInMonth(_currentMonth);
+
+                      return Container(
+                        padding: const EdgeInsets.all(
+                          16,
+                        ), // CHANGED: Moved padding here
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 7,
+                              ),
+                          itemCount: days.length,
+                          itemBuilder: (context, index) {
+                            final date = days[index];
+                            final hasTasks = _hasTasksOnDate(date, tasks);
+                            final isCurrentMonth =
+                                date.month == _currentMonth.month;
+                            final isSelected = _isSameDay(date, _selectedDate);
+
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedDate = date;
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppColors.accentColor
+                                      : Colors.transparent,
+                                  shape: BoxShape.circle,
+                                  border: hasTasks && !isSelected
+                                      ? Border.all(
+                                          color: AppColors.primaryBackground,
+                                          width: 2,
+                                        )
+                                      : null,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    date.day.toString(),
+                                    style: TextStyle(
+                                      color: isCurrentMonth
+                                          ? (isSelected
+                                                ? Colors.black
+                                                : AppColors.primaryBackground)
+                                          : Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(height: 16),
-              ],
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          // Tasks Section
-          Expanded(
-            child: Container(
+            const SizedBox(height: 16),
+            // Tasks Section
+            Container(
               margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -222,35 +228,44 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Expanded(
-                      child: FutureBuilder<List<Task>>(
-                        future: _allTasks,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
+                    // CHANGED: Removed Expanded and fixed height
+                    FutureBuilder<List<Task>>(
+                      future: _allTasks,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const SizedBox(
+                            height: 100, // Fixed height for loading
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        }
 
-                          final tasks = snapshot.data ?? [];
-                          final dateTasks = tasks
-                              .where(
-                                (task) =>
-                                    _isSameDay(task.dueDate, _selectedDate),
-                              )
-                              .toList();
+                        final tasks = snapshot.data ?? [];
+                        final dateTasks = tasks
+                            .where(
+                              (task) => _isSameDay(task.dueDate, _selectedDate),
+                            )
+                            .toList();
 
-                          if (dateTasks.isEmpty) {
-                            return const Center(
+                        if (dateTasks.isEmpty) {
+                          return const SizedBox(
+                            height: 100, // Fixed height for empty state
+                            child: Center(
                               child: Text(
                                 'No tasks for this date',
                                 style: TextStyle(color: Colors.grey),
                               ),
-                            );
-                          }
+                            ),
+                          );
+                        }
 
-                          return ListView.builder(
+                        return ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight:
+                                300, // CHANGED: Set maximum height for tasks list
+                          ),
+                          child: ListView.builder(
+                            shrinkWrap: true,
                             itemCount: dateTasks.length,
                             itemBuilder: (context, index) {
                               final task = dateTasks[index];
@@ -277,16 +292,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 ),
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

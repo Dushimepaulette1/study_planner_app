@@ -38,6 +38,16 @@ class Task {
       isCompleted: json['isCompleted'],
     );
   }
+  Task toggleCompletion() {
+    return Task(
+      id: id,
+      title: title,
+      description: description,
+      dueDate: dueDate,
+      reminderTime: reminderTime,
+      isCompleted: !isCompleted,
+    );
+  }
 
   Task copyWith({
     String? title,

@@ -49,6 +49,15 @@ class StorageService {
     }
   }
 
+  Future<void> toggleTaskCompletion(String taskId) async {
+    final tasks = await loadTasks();
+    final taskIndex = tasks.indexWhere((task) => task.id == taskId);
+    if (taskIndex != -1) {
+      tasks[taskIndex] = tasks[taskIndex].toggleCompletion();
+      await saveTasks(tasks);
+    }
+  }
+
   Future<bool> getNotificationsEnabled() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_notificationsEnabledKey) ?? true;

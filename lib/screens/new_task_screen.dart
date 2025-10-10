@@ -117,7 +117,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Padding(
+                child: SingleChildScrollView(
+                  // CHANGED: Added SingleChildScrollView
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,8 +282,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         ),
                       ],
 
-                      const Spacer(),
-
+                      const SizedBox(
+                        height: 40,
+                      ), // Added extra space before button
                       // Save Button
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -299,6 +301,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 20), // Added space after button
                     ],
                   ),
                 ),
