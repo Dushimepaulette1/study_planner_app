@@ -5,6 +5,32 @@ import 'package:study_planner_app/screens/settings_screen.dart';
 import 'package:study_planner_app/utils/colors.dart';
 import 'package:study_planner_app/services/storage_service.dart';
 
+// Global theme notifier that can be accessed throughout the app
+class ThemeNotifier extends ChangeNotifier {
+  bool _isDarkMode = true; // Default to dark mode
+  final StorageService _storageService = StorageService();
+
+  ThemeNotifier() {
+    _loadThemePreference();
+  }
+
+  bool get isDarkMode => _isDarkMode;
+
+  void _loadThemePreference() async {
+    final isDarkMode = await _storageService.getThemeMode();
+    _isDarkMode = isDarkMode;
+    notifyListeners();
+  }
+
+  void toggleTheme(bool isDarkMode) {
+    _isDarkMode = isDarkMode;
+    _storageService.setThemeMode(isDarkMode);
+    notifyListeners();
+  }
+}
+
+final themeNotifier = ThemeNotifier();
+
 void main() {
   runApp(const StudyPlannerApp());
 }
@@ -17,39 +43,21 @@ class StudyPlannerApp extends StatefulWidget {
 }
 
 class _StudyPlannerAppState extends State<StudyPlannerApp> {
-  final StorageService _storageService = StorageService();
-  bool _isDarkMode = false;
-  int _selectedIndex = 0;
-  final List<Widget> _screens = [
-    const TodayScreen(),
-    const CalendarScreen(),
-    const SettingsScreen(),
-  ];
-
   @override
   void initState() {
     super.initState();
-    _loadThemePreference();
+    // Listen to theme changes
+    themeNotifier.addListener(_onThemeChanged);
   }
 
-  void _loadThemePreference() async {
-    final isDarkMode = await _storageService.getThemeMode();
-    setState(() {
-      _isDarkMode = isDarkMode;
-    });
+  void _onThemeChanged() {
+    setState(() {}); // Rebuild the app when theme changes
   }
 
-  void _toggleTheme(bool isDarkMode) {
-    setState(() {
-      _isDarkMode = isDarkMode;
-    });
-    _storageService.setThemeMode(isDarkMode);
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void dispose() {
+    themeNotifier.removeListener(_onThemeChanged);
+    super.dispose();
   }
 
   @override
@@ -58,28 +66,8 @@ class _StudyPlannerAppState extends State<StudyPlannerApp> {
       title: 'Study Planner',
       theme: _buildLightTheme(),
       darkTheme: _buildDarkTheme(),
-      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: Scaffold(
-        body: _screens[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.today),
-              label: 'Today',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
-              label: 'Calendar',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-        ),
-      ),
+      themeMode: themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: const MainNavigationScreen(),
     );
   }
 
@@ -124,8 +112,53 @@ class _StudyPlannerAppState extends State<StudyPlannerApp> {
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: AppColors.darkText),
         bodyMedium: TextStyle(color: AppColors.darkText),
+        titleLarge: TextStyle(color: AppColors.darkText),
       ),
       useMaterial3: true,
+    );
+  }
+}
+
+class MainNavigationScreen extends StatefulWidget {
+  const MainNavigationScreen({super.key});
+
+  @override
+  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+}
+
+class _MainNavigationScreenState extends State<MainNavigationScreen> {
+  int _selectedIndex = 0;
+  final List<Widget> _screens = [
+    const TodayScreen(),
+    const CalendarScreen(),
+    const SettingsScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.today), label: 'Today'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
     );
   }
 }

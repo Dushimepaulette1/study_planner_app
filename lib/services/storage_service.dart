@@ -80,6 +80,6 @@ class StorageService {
 
   Future<bool> getThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_themeModeKey) ?? false; // Default to light mode
+    return prefs.getBool(_themeModeKey) ?? true; // Default to dark mode
   }
 }

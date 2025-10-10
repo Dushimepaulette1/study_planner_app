@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:study_planner_app/models/task.dart';
 import 'package:study_planner_app/services/storage_service.dart';
 import 'package:study_planner_app/utils/colors.dart';
+import 'package:study_planner_app/main.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});
@@ -89,10 +90,15 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode
+        ? AppColors.darkPrimary
+        : AppColors.lightPrimary;
+
     return Scaffold(
-      backgroundColor: AppColors.lightPrimary,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: AppColors.lightPrimary,
+        backgroundColor: backgroundColor,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
