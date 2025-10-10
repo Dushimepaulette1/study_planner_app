@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:study_planner_app/screens/today_screen.dart';
 import 'package:study_planner_app/screens/calendar_screen.dart';
 import 'package:study_planner_app/screens/settings_screen.dart';
+import 'package:study_planner_app/screens/new_task_screen.dart';
 import 'package:study_planner_app/utils/colors.dart';
 import 'package:study_planner_app/services/storage_service.dart';
 
@@ -128,22 +129,63 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
-  final List<Widget> _screens = [
-    const TodayScreen(),
-    const CalendarScreen(),
-    const SettingsScreen(),
-  ];
+  bool _showNewTaskScreen = false;
+
+  late List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeScreens();
+  }
+
+  void _initializeScreens() {
+    _screens = [
+      const TodayScreen(),
+      const CalendarScreen(),
+      const SettingsScreen(),
+    ];
+  }
+
+  void _refreshScreens() {
+    setState(() {
+      _initializeScreens();
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _showNewTaskScreen = false;
+    });
+  }
+
+  void _showAddTask() {
+    setState(() {
+      _showNewTaskScreen = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex],
+      body: _showNewTaskScreen
+          ? NewTaskScreen(
+              onTaskSaved: () {
+                setState(() {
+                  _showNewTaskScreen = false;
+                });
+                _refreshScreens();
+              },
+            )
+          : _screens[_selectedIndex],
+      floatingActionButton: !_showNewTaskScreen
+          ? FloatingActionButton(
+              onPressed: _showAddTask,
+              backgroundColor: AppColors.accentColor,
+              child: const Icon(Icons.add, color: Colors.black),
+            )
+          : null,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.today), label: 'Today'),

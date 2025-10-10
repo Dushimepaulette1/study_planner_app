@@ -105,10 +105,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         ),
                         Text(
                           DateFormat('MMMM yyyy').format(_currentMonth),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.lightPrimary,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.darkText
+                                : AppColors.lightPrimary,
                           ),
                         ),
                         IconButton(
@@ -178,7 +181,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   shape: BoxShape.circle,
                                   border: hasTasks && !isSelected
                                       ? Border.all(
-                                          color: AppColors.lightPrimary,
+                                          color:
+                                              Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? AppColors.darkPrimary
+                                              : AppColors.lightPrimary,
                                           width: 2,
                                         )
                                       : null,
@@ -190,6 +197,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       color: isCurrentMonth
                                           ? (isSelected
                                                 ? Colors.black
+                                                : Theme.of(
+                                                        context,
+                                                      ).brightness ==
+                                                      Brightness.dark
+                                                ? AppColors.darkText
                                                 : AppColors.lightPrimary)
                                           : Colors.grey,
                                       fontWeight: FontWeight.bold,
@@ -211,7 +223,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Container(
               margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -221,10 +233,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   children: [
                     Text(
                       'Tasks for ${DateFormat('MMM dd, yyyy').format(_selectedDate)}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.lightPrimary,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppColors.darkText
+                            : AppColors.lightPrimary,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -320,9 +334,11 @@ class _WeekdayHeader extends StatelessWidget {
         child: Text(
           day,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: AppColors.lightPrimary,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.darkText
+                : AppColors.lightPrimary,
           ),
         ),
       ),

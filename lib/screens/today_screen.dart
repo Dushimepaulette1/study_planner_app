@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:study_planner_app/models/task.dart';
-import 'package:study_planner_app/screens/new_task_screen.dart';
 import 'package:study_planner_app/services/storage_service.dart';
 import 'package:study_planner_app/utils/colors.dart';
 
@@ -45,13 +44,6 @@ class _TodayScreenState extends State<TodayScreen> {
     _storageService.deleteTask(taskId).then((_) {
       _loadTodayTasks(); // Reload tasks after deletion
     });
-  }
-
-  bool _isToday(DateTime date) {
-    final now = DateTime.now();
-    return date.year == now.year &&
-        date.month == now.month &&
-        date.day == now.day;
   }
 
   @override
@@ -168,6 +160,9 @@ class _TodayScreenState extends State<TodayScreen> {
                                     : TextDecoration.none,
                                 color: task.isCompleted
                                     ? Colors.grey
+                                    : Theme.of(context).brightness ==
+                                          Brightness.dark
+                                    ? Colors.white
                                     : Colors.black,
                               ),
                             ),
@@ -184,6 +179,9 @@ class _TodayScreenState extends State<TodayScreen> {
                                           : TextDecoration.none,
                                       color: task.isCompleted
                                           ? Colors.grey
+                                          : Theme.of(context).brightness ==
+                                                Brightness.dark
+                                          ? Colors.white70
                                           : Colors.black54,
                                     ),
                                   ),
@@ -229,34 +227,6 @@ class _TodayScreenState extends State<TodayScreen> {
                     },
                   );
                 },
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accentColor,
-                foregroundColor: Colors.black,
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const NewTaskScreen(),
-                  ),
-                ).then((_) {
-                  _loadTodayTasks(); // Reload tasks when returning from NewTaskScreen
-                });
-              },
-              child: const Text(
-                'New Task',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
           ),

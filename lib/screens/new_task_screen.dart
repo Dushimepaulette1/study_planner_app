@@ -6,7 +6,9 @@ import 'package:study_planner_app/utils/colors.dart';
 import 'package:study_planner_app/main.dart';
 
 class NewTaskScreen extends StatefulWidget {
-  const NewTaskScreen({super.key});
+  final Function? onTaskSaved;
+
+  const NewTaskScreen({super.key, this.onTaskSaved});
 
   @override
   State<NewTaskScreen> createState() => _NewTaskScreenState();
@@ -84,7 +86,10 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
 
     _storageService.saveTask(newTask).then((_) {
-      Navigator.pop(context);
+      if (widget.onTaskSaved != null) {
+        widget.onTaskSaved!();
+      }
+      // Remove Navigator.pop() as it causes errors when integrated with MainNavigationScreen
     });
   }
 
@@ -101,7 +106,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         backgroundColor: backgroundColor,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            if (widget.onTaskSaved != null) {
+              widget.onTaskSaved!();
+            }
+          },
         ),
         title: const Text(
           'New Task',
@@ -135,7 +144,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.darkText
+                              : AppColors.lightPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -150,12 +161,14 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       const SizedBox(height: 20),
 
                       // Description
-                      const Text(
+                      Text(
                         'Description',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.lightPrimary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.darkText
+                              : AppColors.lightPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -174,12 +187,14 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       const SizedBox(height: 20),
 
                       // Date
-                      const Text(
+                      Text(
                         'Due Date *',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.lightPrimary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.darkText
+                              : AppColors.lightPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -201,12 +216,14 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       const SizedBox(height: 20),
 
                       // Time
-                      const Text(
+                      Text(
                         'Due Time *',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppColors.lightPrimary,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.darkText
+                              : AppColors.lightPrimary,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -230,12 +247,16 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       // Notifications Toggle
                       Row(
                         children: [
-                          const Text(
+                          Text(
                             'Enable Reminders',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.lightPrimary,
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppColors.darkText
+                                  : AppColors.lightPrimary,
                             ),
                           ),
                           const Spacer(),
@@ -253,12 +274,15 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
 
                       // Reminder Options
                       if (_enableNotifications) ...[
-                        const Text(
+                        Text(
                           'Remind me',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.lightPrimary,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.darkText
+                                : AppColors.lightPrimary,
                           ),
                         ),
                         const SizedBox(height: 8),
