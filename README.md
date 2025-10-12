@@ -14,11 +14,25 @@ A feature-rich Flutter application designed to help students manage their study 
 
 ## Screenshots
 
-|                        Today Screen                         |                           Calendar View                           |                             New Task                              |                             Settings                              |
-| :---------------------------------------------------------: | :---------------------------------------------------------------: | :---------------------------------------------------------------: | :---------------------------------------------------------------: |
-<img width="481" height="965" alt="Screenshot 2025-10-12 212246" src="https://github.com/user-attachments/assets/10c33fe4-d5d0-4124-a647-5f78e040fa65" /> | <img width="473" height="944" alt="Screenshot 2025-10-12 212722" src="https://github.com/user-attachments/assets/a6b5799c-e450-45d8-9816-e2efcc7a2250" /> | <img width="457" height="950" alt="Screenshot 2025-10-12 212945" src="https://github.com/user-attachments/assets/f5d1d5fc-61f4-4093-92fb-f00dea9e54e1" /> <img width="449" height="546" alt="Screenshot 2025-10-12 213036" src="https://github.com/user-attachments/assets/c914e5fd-121e-4a1a-83da-7f34bd8464c6" />
-  | <img width="461" height="962" alt="Screenshot 2025-10-12 213123" src="https://github.com/user-attachments/assets/9d30a354-0fb5-4d54-92d2-81f4a0b89d3c" />
- |
+### Today Screen
+
+<img width="350" alt="Today Screen" src="https://github.com/user-attachments/assets/10c33fe4-d5d0-4124-a647-5f78e040fa65" />
+
+### Calendar View
+
+<img width="350" alt="Calendar View" src="https://github.com/user-attachments/assets/a6b5799c-e450-45d8-9816-e2efcc7a2250" />
+
+### New Task
+
+<img width="350" alt="New Task" src="https://github.com/user-attachments/assets/f5d1d5fc-61f4-4093-92fb-f00dea9e54e1" />
+
+### Task Details
+
+<img width="350" alt="Task Details" src="https://github.com/user-attachments/assets/c914e5fd-121e-4a1a-83da-7f34bd8464c6" />
+
+### Settings
+
+<img width="350" alt="Settings" src="https://github.com/user-attachments/assets/9d30a354-0fb5-4d54-92d2-81f4a0b89d3c" />
 
 ## Architecture
 
