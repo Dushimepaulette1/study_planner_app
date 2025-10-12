@@ -26,8 +26,6 @@ A feature-rich Flutter application designed to help students manage their study 
 
 <img width="350" alt="New Task" src="https://github.com/user-attachments/assets/f5d1d5fc-61f4-4093-92fb-f00dea9e54e1" />
 
-### Task Details
-
 <img width="350" alt="Task Details" src="https://github.com/user-attachments/assets/c914e5fd-121e-4a1a-83da-7f34bd8464c6" />
 
 ### Settings
@@ -55,7 +53,7 @@ The app is built using the following architecture:
 1. Ensure you have Flutter installed on your machine
 2. Clone the repository:
    ```
-   git clone https://github.com/Dushimepaulette1/Individual_Assignment_1.git
+   git clone https://github.com/Dushimepaulette1/study_planner_app.git
    ```
 3. Navigate to the project directory:
    ```
