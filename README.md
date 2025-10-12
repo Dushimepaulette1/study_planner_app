@@ -2,8 +2,6 @@
 
 A feature-rich Flutter application designed to help students manage their study tasks, deadlines, and reminders.
 
-![Study Planner App](https://via.placeholder.com/800x400?text=Study+Planner+App)
-
 ## Features
 
 - **Task Management**: Create, view, edit, and delete study tasks
