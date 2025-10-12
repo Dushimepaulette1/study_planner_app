@@ -115,7 +115,7 @@ Toggle between dark and light mode in the Settings screen.
 
 ## Demo Video
 
-A demonstration of the app can be viewed [here](https://youtu.be/1kMZ3ENh9C0).
+A demonstration of the app can be viewed [here](https://youtu.be/FlGnFvsUP7o).
 
 ## Contributing
 
