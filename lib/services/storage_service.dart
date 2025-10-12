@@ -1,17 +1,22 @@
 import 'dart:convert'; // ADD THIS LINE
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/task.dart';
+// Setup storage: “We use SharedPreferences to save data locally.”
 
 class StorageService {
   static const String _tasksKey = 'tasks';
   static const String _storageMethodKey = 'storage_method';
   static const String _themeModeKey = 'theme_mode';
   static const String _notificationsEnabledKey = 'notifications_enabled';
+  // Saving tasks: “saveTask() and saveTasks() convert task objects to JSON and save them.”
+
   Future<void> saveTasks(List<Task> tasks) async {
     final prefs = await SharedPreferences.getInstance();
     final tasksJson = tasks.map((task) => task.toJson()).toList();
     await prefs.setString('tasks', json.encode(tasksJson));
   }
+
+  // Loading tasks: “loadTasks() retrieves tasks on app startup.”
 
   Future<List<Task>> loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
@@ -20,6 +25,7 @@ class StorageService {
     if (tasksJsonString == null) {
       return [];
     }
+    // Mapping back: “Task.fromJson() converts saved JSON back into Task objects.”
 
     try {
       final List<dynamic> tasksJson = json.decode(tasksJsonString);

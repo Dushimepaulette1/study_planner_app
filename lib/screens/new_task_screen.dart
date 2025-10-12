@@ -84,7 +84,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       dueDate: dueDateTime,
       reminderTime: reminderTime,
     );
-
+// Converts the task into JSON and stores it locally.
     _storageService.saveTask(newTask).then((_) {
       if (widget.onTaskSaved != null) {
         widget.onTaskSaved!();
