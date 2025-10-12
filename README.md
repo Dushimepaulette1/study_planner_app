@@ -1,8 +1,8 @@
 # Study Planner App
 
 A feature-rich Flutter application designed to help students manage their study tasks, deadlines, and reminders.
+<img width="466" height="940" alt="Screenshot 2025-10-12 213240" src="https://github.com/user-attachments/assets/4f21de8d-f692-418c-8ea0-9fdc99570783" />
 
-![Study Planner App](https://via.placeholder.com/800x400?text=Study+Planner+App)
 
 ## Features
 
@@ -17,7 +17,9 @@ A feature-rich Flutter application designed to help students manage their study 
 
 |                        Today Screen                         |                           Calendar View                           |                             New Task                              |                             Settings                              |
 | :---------------------------------------------------------: | :---------------------------------------------------------------: | :---------------------------------------------------------------: | :---------------------------------------------------------------: |
-| ![Today](https://via.placeholder.com/200?text=Today+Screen) | ![Calendar](https://via.placeholder.com/200?text=Calendar+Screen) | ![New Task](https://via.placeholder.com/200?text=New+Task+Screen) | ![Settings](https://via.placeholder.com/200?text=Settings+Screen) |
+<img width="481" height="965" alt="Screenshot 2025-10-12 212246" src="https://github.com/user-attachments/assets/10c33fe4-d5d0-4124-a647-5f78e040fa65" /> | <img width="473" height="944" alt="Screenshot 2025-10-12 212722" src="https://github.com/user-attachments/assets/a6b5799c-e450-45d8-9816-e2efcc7a2250" /> | <img width="457" height="950" alt="Screenshot 2025-10-12 212945" src="https://github.com/user-attachments/assets/f5d1d5fc-61f4-4093-92fb-f00dea9e54e1" /> <img width="449" height="546" alt="Screenshot 2025-10-12 213036" src="https://github.com/user-attachments/assets/c914e5fd-121e-4a1a-83da-7f34bd8464c6" />
+  | <img width="461" height="962" alt="Screenshot 2025-10-12 213123" src="https://github.com/user-attachments/assets/9d30a354-0fb5-4d54-92d2-81f4a0b89d3c" />
+ |
 
 ## Architecture
 
