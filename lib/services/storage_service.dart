@@ -5,7 +5,6 @@ import '../models/task.dart';
 
 class StorageService {
   static const String _tasksKey = 'tasks';
-  static const String _storageMethodKey = 'storage_method';
   static const String _themeModeKey = 'theme_mode';
   static const String _notificationsEnabledKey = 'notifications_enabled';
   // Saving tasks: “saveTask() and saveTasks() convert task objects to JSON and save them.”
@@ -13,14 +12,14 @@ class StorageService {
   Future<void> saveTasks(List<Task> tasks) async {
     final prefs = await SharedPreferences.getInstance();
     final tasksJson = tasks.map((task) => task.toJson()).toList();
-    await prefs.setString('tasks', json.encode(tasksJson));
+    await prefs.setString(_tasksKey, json.encode(tasksJson));
   }
 
   // Loading tasks: “loadTasks() retrieves tasks on app startup.”
 
   Future<List<Task>> loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
-    final tasksJsonString = prefs.getString('tasks');
+    final tasksJsonString = prefs.getString(_tasksKey);
 
     if (tasksJsonString == null) {
       return [];
