@@ -5,6 +5,7 @@ import 'package:study_planner_app/screens/settings_screen.dart';
 import 'package:study_planner_app/screens/new_task_screen.dart';
 import 'package:study_planner_app/utils/colors.dart';
 import 'package:study_planner_app/services/storage_service.dart';
+import 'package:study_planner_app/services/notification_service.dart';
 
 // Global theme notifier that can be accessed throughout the app
 class ThemeNotifier extends ChangeNotifier {
@@ -32,7 +33,9 @@ class ThemeNotifier extends ChangeNotifier {
 
 final themeNotifier = ThemeNotifier();
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().initialize();
   runApp(const StudyPlannerApp());
 }
 
