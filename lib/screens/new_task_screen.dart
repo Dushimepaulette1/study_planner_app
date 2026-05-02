@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:study_planner_app/models/task.dart';
+import 'package:study_planner_app/services/notification_service.dart';
 import 'package:study_planner_app/services/storage_service.dart';
 import 'package:study_planner_app/utils/colors.dart';
-import 'package:study_planner_app/main.dart';
 
 class NewTaskScreen extends StatefulWidget {
   final Function? onTaskSaved;
@@ -51,13 +51,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
 
   void _saveTask() {
     if (_titleController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Please enter a title')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a title')),
+      );
       return;
     }
 
-    // Combine date and time
     final dueDateTime = DateTime(
       _selectedDate.year,
       _selectedDate.month,
@@ -66,13 +65,22 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       _selectedTime.minute,
     );
 
-    // Calculate reminder time based on selection
     DateTime? reminderTime;
+    String? reminderWarning;
+
     if (_enableNotifications) {
-      if (_reminderOption == '1 day before') {
-        reminderTime = dueDateTime.subtract(const Duration(days: 1));
+      final offset = _reminderOption == '1 day before'
+          ? const Duration(days: 1)
+          : const Duration(hours: 1);
+      final calculated = dueDateTime.subtract(offset);
+
+      if (calculated.isBefore(DateTime.now())) {
+        // Reminder time is already in the past — warn and skip scheduling.
+        reminderWarning = _reminderOption == '1 day before'
+            ? 'Task is less than 1 day away — reminder not set.'
+            : 'Task is less than 1 hour away — reminder not set.';
       } else {
-        reminderTime = dueDateTime.subtract(const Duration(hours: 1));
+        reminderTime = calculated;
       }
     }
 
@@ -84,12 +92,27 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       dueDate: dueDateTime,
       reminderTime: reminderTime,
     );
-// Converts the task into JSON and stores it locally.
-    _storageService.saveTask(newTask).then((_) {
+
+    _storageService.saveTask(newTask).then((_) async {
+      if (reminderTime != null) {
+        await NotificationService().scheduleReminder(
+          taskId: newTask.id,
+          taskTitle: newTask.title,
+          reminderTime: reminderTime,
+        );
+      }
+      // Show warning while this screen is still mounted, before navigating away.
+      if (reminderWarning != null && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(reminderWarning),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
       if (widget.onTaskSaved != null) {
         widget.onTaskSaved!();
       }
-      // Remove Navigator.pop() as it causes errors when integrated with MainNavigationScreen
     });
   }
 
@@ -286,29 +309,25 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Column(
-                          children: [
-                            RadioListTile<String>(
-                              title: const Text('1 hour before'),
-                              value: '1 hour before',
-                              groupValue: _reminderOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  _reminderOption = value!;
-                                });
-                              },
-                            ),
-                            RadioListTile<String>(
-                              title: const Text('1 day before'),
-                              value: '1 day before',
-                              groupValue: _reminderOption,
-                              onChanged: (value) {
-                                setState(() {
-                                  _reminderOption = value!;
-                                });
-                              },
-                            ),
-                          ],
+                        RadioGroup<String>(
+                          groupValue: _reminderOption,
+                          onChanged: (value) {
+                            setState(() {
+                              _reminderOption = value!;
+                            });
+                          },
+                          child: Column(
+                            children: const [
+                              RadioListTile<String>(
+                                title: Text('1 hour before'),
+                                value: '1 hour before',
+                              ),
+                              RadioListTile<String>(
+                                title: Text('1 day before'),
+                                value: '1 day before',
+                              ),
+                            ],
+                          ),
                         ),
                       ],
 
